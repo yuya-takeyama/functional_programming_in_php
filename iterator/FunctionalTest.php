@@ -53,6 +53,11 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $this->assertIterator([1, 2, 3, 4, 5, 6, 7, 8, 9], F\takeWhile(function ($x) { return $x < 10; }, F\range(1, INF)));
     }
 
+    public function test_dropWhile()
+    {
+        $this->assertIterator([6, 7, 8, 9, 10], F\dropWhile(function ($x) { return $x < 6; }, F\range(1, 10)));
+    }
+
     public function assertIterator($expected, Traversable $actualIterator)
     {
         $this->assertSame($expected, \iterator_to_array($actualIterator));

@@ -146,6 +146,42 @@ class TakeWhileIterator extends IteratorIterator
     }
 }
 
+class DropWhileIterator extends IteratorIterator
+{
+    private $fn;
+
+    private $key;
+
+    public function __construct(Traversable $iterator, $fn)
+    {
+        $this->fn = $fn;
+        parent::__construct($iterator);
+    }
+
+    public function rewind()
+    {
+        parent::rewind();
+
+        $this->key = 0;
+
+        while (call_user_func($this->fn, $this->current())) {
+            parent::next();
+        }
+    }
+
+    public function next()
+    {
+        $this->key += 1;
+
+        parent::next();
+    }
+
+    public function key()
+    {
+        return $this->key;
+    }
+}
+
 function range($start, $end, $step = 1) {
     return new RangeIterator($start, $end, $step);
 }
@@ -196,4 +232,8 @@ function all($fn, $iterator) {
 
 function takeWhile($fn, $iterator) {
     return new TakeWhileIterator($iterator, $fn);
+}
+
+function dropWhile($fn, $iterator) {
+    return new dropWhileIterator($iterator, $fn);
 }
