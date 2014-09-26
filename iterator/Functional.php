@@ -130,6 +130,22 @@ class TailIterator extends IteratorIterator
     }
 }
 
+class TakeWhileIterator extends IteratorIterator
+{
+    private $fn;
+
+    public function __construct(Traversable $iterator, $fn)
+    {
+        $this->fn = $fn;
+        parent::__construct($iterator);
+    }
+
+    public function valid()
+    {
+        return call_user_func($this->fn, $this->current());
+    }
+}
+
 function range($start, $end, $step = 1) {
     return new RangeIterator($start, $end, $step);
 }
@@ -176,4 +192,8 @@ function all($fn, $iterator) {
     }
 
     return true;
+}
+
+function takeWhile($fn, $iterator) {
+    return new TakeWhileIterator($iterator, $fn);
 }
