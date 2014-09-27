@@ -48,6 +48,12 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $this->assertFalse(F\all('odd', new ArrayIterator([1, 3, 6])));
     }
 
+    public function test_take()
+    {
+        $this->assertIterator([1, 2, 3, 4, 5], F\take(5, F\range(1, \INF)));
+        $this->assertIterator([], F\take(0, F\range(1, \INF)));
+    }
+
     public function test_takeWhile()
     {
         $this->assertIterator([1, 2, 3, 4, 5, 6, 7, 8, 9], F\takeWhile(function ($x) { return $x < 10; }, F\range(1, INF)));

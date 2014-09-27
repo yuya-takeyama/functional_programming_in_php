@@ -131,6 +131,39 @@ class TailIterator extends IteratorIterator
     }
 }
 
+class TakeIterator extends IteratorIterator
+{
+    private $n;
+
+    private $i;
+
+    public function __construct(Traversable $iterator, $n)
+    {
+        $this->n = $n;
+
+        parent::__construct($iterator);
+    }
+
+    public function rewind()
+    {
+        $this->i = 0;
+
+        parent::rewind();
+    }
+
+    public function next()
+    {
+        parent::next();
+
+        $this->i += 1;
+    }
+
+    public function valid()
+    {
+        return $this->i < $this->n;
+    }
+}
+
 class TakeWhileIterator extends IteratorIterator
 {
     private $fn;
@@ -229,6 +262,10 @@ function all($fn, $iterator) {
     }
 
     return true;
+}
+
+function take($n, $iterator) {
+    return new TakeIterator($iterator, $n);
 }
 
 function takeWhile($fn, $iterator) {
