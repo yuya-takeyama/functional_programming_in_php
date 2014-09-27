@@ -60,12 +60,20 @@ class TestCase extends \PHPUnit_Framework_TestCase
 
     public function test_foldl()
     {
-        $this->assertSame(55, F\foldl(function ($a, $b) { return $a + $b; }, 0, F\range(1, 10)));
+        $this->assertSame(55, F\foldl(F\op('+'), 0, F\range(1, 10)));
     }
 
     public function test_foldl1()
     {
-        $this->assertSame(55, F\foldl1(function ($a, $b) { return $a + $b; }, F\range(1, 10)));
+        $this->assertSame(55, F\foldl1(F\op('+'), F\range(1, 10)));
+    }
+
+    public function test_op_plus()
+    {
+        $fn = F\op('+');
+
+        $this->assertSame(3, $fn(1, 2));
+        $this->assertSame(6, $fn(1, 2, 3));
     }
 
     public function assertIterator($expected, Traversable $actualIterator)

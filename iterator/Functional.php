@@ -1,6 +1,7 @@
 <?php
 namespace Yuyat\Functional\WithIterator;
 
+use ArrayIterator;
 use Iterator;
 use IteratorIterator;
 use Traversable;
@@ -258,4 +259,21 @@ function foldl1($fn, $iterator) {
     }
 
     return $a;
+}
+
+function op($operator) {
+    $opArgCount = func_num_args() - 1;
+
+    switch ($operator) {
+    case '+':
+        if ($opArgCount === 0) {
+            return function () {
+                return foldl1(function ($a, $b) { return $a + $b; }, new ArrayIterator(func_get_args()));
+            };
+        }
+        break;
+
+    default:
+        throw new \InvalidArgumentException(sprintf('Invalid operator: %s', $operator));
+    }
 }
