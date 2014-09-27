@@ -237,3 +237,25 @@ function takeWhile($fn, $iterator) {
 function dropWhile($fn, $iterator) {
     return new dropWhileIterator($iterator, $fn);
 }
+
+function foldl($fn, $initial, $iterator) {
+    $a = $initial;
+
+    foreach ($iterator as $value) {
+        $b = $value;
+        $a = $fn($a, $b);
+    }
+
+    return $a;
+}
+
+function foldl1($fn, $iterator) {
+    $a = head($iterator);
+
+    foreach (tail($iterator) as $value) {
+        $b = $value;
+        $a = $fn($a, $b);
+    }
+
+    return $a;
+}

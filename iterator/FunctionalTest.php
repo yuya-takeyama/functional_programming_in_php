@@ -58,6 +58,16 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $this->assertIterator([6, 7, 8, 9, 10], F\dropWhile(function ($x) { return $x < 6; }, F\range(1, 10)));
     }
 
+    public function test_foldl()
+    {
+        $this->assertSame(55, F\foldl(function ($a, $b) { return $a + $b; }, 0, F\range(1, 10)));
+    }
+
+    public function test_foldl1()
+    {
+        $this->assertSame(55, F\foldl1(function ($a, $b) { return $a + $b; }, F\range(1, 10)));
+    }
+
     public function assertIterator($expected, Traversable $actualIterator)
     {
         $this->assertSame($expected, \iterator_to_array($actualIterator));
